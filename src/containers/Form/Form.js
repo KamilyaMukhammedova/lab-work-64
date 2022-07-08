@@ -19,7 +19,6 @@ const Form = ({history}) => {
     }))
   };
 
-
   const onTitleChange = (e) => {
     const {name, value} = e.target;
     setNewPost(prev => ({
