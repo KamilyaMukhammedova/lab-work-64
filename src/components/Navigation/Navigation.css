@@ -1,0 +1,8 @@
+.navLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navLink:hover {
+    text-decoration: none;
+}
