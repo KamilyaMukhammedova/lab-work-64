@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import axiosApi from "../../axiosApi";
 import dayjs from "dayjs";
 
-
 const Form = ({history, match}) => {
   const [newPost, setNewPost] = useState({
     title: '',

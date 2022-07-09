@@ -57,7 +57,7 @@ const PostInfo = ({match, history}) => {
             }
           </button>
           <button type="button" className="btn btn-dark">
-            <NavLink to={`/posts/${match.params.id}/edit`}>Edit</NavLink>
+            <NavLink to={`/posts/${match.params.id}/edit`} className="navLink">Edit</NavLink>
           </button>
         </div>
         :
