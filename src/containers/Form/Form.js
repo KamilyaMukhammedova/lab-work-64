@@ -11,6 +11,7 @@ const Form = ({history, match}) => {
   });
 
   const [isEdited, setIsEdited] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (match.params.id) {
@@ -49,6 +50,7 @@ const Form = ({history, match}) => {
 
   const addNewPost = async e => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       if (!match.params.id) {
@@ -56,7 +58,11 @@ const Form = ({history, match}) => {
       } else {
         await axiosApi.patch(`/posts/${match.params.id}.json`, {newPost});
       }
+    } catch (e) {
+      setLoading(false);
+      console.error(e);
     } finally {
+      setLoading(false);
       history.push('/');
     }
   };
@@ -85,7 +91,19 @@ const Form = ({history, match}) => {
             onChange={onChange}
           />
         </div>
-        <button type="submit" className="btn btn-success">Save</button>
+        <button
+          type="submit"
+          className="btn btn-success"
+          disabled={loading}
+        >
+          {loading ?
+            <>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+              <span className="sr-only">Loading...</span>
+            </> :
+            <span>Save</span>
+          }
+        </button>
       </form>
     </div>
   );
