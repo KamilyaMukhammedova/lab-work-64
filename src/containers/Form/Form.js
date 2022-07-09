@@ -1,25 +1,45 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axiosApi from "../../axiosApi";
 import dayjs from "dayjs";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { convertToHTML } from 'draft-convert';
 
-const Form = ({history}) => {
+
+const Form = ({history, match}) => {
   const [newPost, setNewPost] = useState({
     title: '',
     description: '',
     date: dayjs().format('DD.MM.YYYY HH:mm:ss'),
   });
 
-  const onEditorStateChange = (editor) => {
-    setNewPost(prev => ({
-      ...prev,
-      description: convertToHTML(editor.getCurrentContent())
-    }))
-  };
+  const [isEdited, setIsEdited] = useState(false);
 
-  const onTitleChange = (e) => {
+  useEffect(() => {
+    if (match.params.id) {
+      setIsEdited(true);
+
+      const fetchEditedPost = async () => {
+        try {
+          const response = await axiosApi(`/posts/${match.params.id}.json`);
+
+          await setNewPost(response.data.newPost);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+
+      fetchEditedPost().catch(e => console.error(e));
+    } else {
+      setIsEdited(false);
+      setNewPost({
+        title: '',
+        description: '',
+        date: dayjs().format('DD.MM.YYYY HH:mm:ss'),
+      });
+    }
+
+  }, [match.params.id]);
+
+
+  const onChange = (e) => {
     const {name, value} = e.target;
     setNewPost(prev => ({
       ...prev,
@@ -31,16 +51,20 @@ const Form = ({history}) => {
     e.preventDefault();
 
     try {
-      await axiosApi.post('/posts.json', {newPost});
+      if (!match.params.id) {
+        await axiosApi.post('/posts.json', {newPost});
+      } else {
+        await axiosApi.patch(`/posts/${match.params.id}.json`, {newPost});
+      }
     } finally {
       history.push('/');
     }
   };
 
-  return (
+  return newPost && (
     <div className="row justify-content-center mt-5">
       <form className="col-5 border p-3" onSubmit={addNewPost}>
-        <h2>Add new post</h2>
+        {isEdited ? <h2>Edit post</h2> : <h2>Add new post</h2>}
         <div className="form-group">
           <label>Title</label>
           <input
@@ -48,17 +72,17 @@ const Form = ({history}) => {
             className="form-control"
             name="title"
             value={newPost.title}
-            onChange={onTitleChange}
+            onChange={onChange}
           />
         </div>
         <div className="form-group">
           <label>Description</label>
-          <Editor
-            defaultEditorState={newPost.description}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={onEditorStateChange}
+          <textarea
+            className="form-control"
+            rows="3"
+            name="description"
+            value={newPost.description}
+            onChange={onChange}
           />
         </div>
         <button type="submit" className="btn btn-success">Save</button>

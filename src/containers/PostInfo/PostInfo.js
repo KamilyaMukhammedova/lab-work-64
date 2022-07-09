@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axiosApi from "../../axiosApi";
-import parse from 'html-react-parser';
+import {NavLink} from "react-router-dom";
 
 const PostInfo = ({match, history}) => {
   const [post, setPost] = useState(null);
@@ -30,9 +30,7 @@ const PostInfo = ({match, history}) => {
     <div className="alert alert-success m-5 col-6">
       <p>Created on: {post.newPost.date}</p>
       <h4>{post.newPost.title}</h4>
-      <>
-        {parse(post.newPost.description)}
-      </>
+      <p>{post.newPost.description}</p>
       <button
         type="button"
         className="btn btn-danger mr-3"
@@ -40,7 +38,9 @@ const PostInfo = ({match, history}) => {
       >
         Remove
       </button>
-      <button type="button" className="btn btn-dark">Edit</button>
+      <button type="button" className="btn btn-dark">
+        <NavLink to={`/posts/${match.params.id}/edit`}>Edit</NavLink>
+      </button>
     </div>
   );
 };

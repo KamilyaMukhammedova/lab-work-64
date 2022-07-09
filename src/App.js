@@ -10,8 +10,10 @@ function App() {
       <Navigation/>
       <Switch>
         <Route path="/" exact component={Posts}/>
-        <Route path="/posts/add" exact component={Form}/>
+        <Route path="/posts/add" component={Form}/>
+        <Route path="/posts/:id/edit" component={Form}/>
         <Route path="/posts/:id" component={PostInfo}/>
+        <Route render={() => <h1 className="text-danger p-5">Page is not found !</h1>}/>
       </Switch>
     </BrowserRouter>
   );
