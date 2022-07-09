@@ -6,7 +6,7 @@ const About = () => {
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj79pwJtB8LxOXEbKzyvPyxI-HElEgFedWsQ&usqp=CAU"
         className="card-img-top"
-        alt="contacts image"
+        alt="about"
       />
       <div className="card-body">
         <h5 className="card-title">About</h5>

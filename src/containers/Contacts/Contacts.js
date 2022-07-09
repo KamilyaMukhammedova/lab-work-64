@@ -6,7 +6,7 @@ const Contacts = () => {
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMVE3gXsAJVbmpntPC40nD9bDe_vg36fGXQ&usqp=CAU"
         className="card-img-top"
-        alt="contacts image"
+        alt="contacts"
       />
       <div className="card-body">
         <h5 className="card-title">Contact me</h5>
@@ -16,7 +16,7 @@ const Contacts = () => {
           voluptatum. Architecto at magnam molestias perspiciatis voluptates. Accusantium consequatur delectus dolor
           eligendi ipsam magni molestias nam pariatur, quisquam, temporibus, tenetur veniam!
         </p>
-        <a href="#" className="btn btn-primary">Contact</a>
+        <button type="button" className="btn btn-primary">Contact</button>
       </div>
     </div>
   );
